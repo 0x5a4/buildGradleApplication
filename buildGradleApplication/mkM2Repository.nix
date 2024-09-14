@@ -21,15 +21,15 @@
     builtins.fromJSON (builtins.readFile (
       stdenv.mkDerivation (finalAttrs: {
         pname = "depSpecs";
-        src = ./.
+        src = ./.;
         
         buildPhase = ''
           ${python3}/bin/python3 ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)} > depSpecs.json
-        ''
+        '';
 
         installPhase = ''
           cp depSpecs.json $out 
-        ''
+        '';
 
         meta = {
           description = "bla";
