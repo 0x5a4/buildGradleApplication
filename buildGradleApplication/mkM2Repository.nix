@@ -13,7 +13,7 @@
 }: let
   filteredSrc = lib.sources.cleanSourceWith {
     inherit src;
-    filter = path: type: path == (lib.path.append src verificationFile);
+    filter = path: type: path == verificationFile;
   };
 
   depSpecs = builtins.filter dependencyFilter (
