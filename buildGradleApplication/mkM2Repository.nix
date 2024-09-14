@@ -21,7 +21,7 @@
     # Read all build and runtime dependencies from the verification-metadata XML
     builtins.fromJSON (builtins.readFile (
       stdenv.mkDerivation (finalAttrs: {
-        pname = "depSpecs";
+        name = "depSpecs";
         src = ./.;
         
         buildPhase = ''
