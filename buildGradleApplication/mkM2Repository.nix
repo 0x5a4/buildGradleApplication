@@ -11,7 +11,7 @@
   repositories ? ["https://plugins.gradle.org/m2/" "https://repo1.maven.org/maven2/"],
   verificationFile ? "gradle/verification-metadata.xml",
 }: let
-  filteredSrc = builtins {
+  filteredSrc = builtins.path {
     path = src;
     filter = path: type: path == verificationFile;
   };
