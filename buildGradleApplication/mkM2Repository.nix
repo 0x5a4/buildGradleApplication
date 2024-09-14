@@ -11,11 +11,16 @@
   repositories ? ["https://plugins.gradle.org/m2/" "https://repo1.maven.org/maven2/"],
   verificationFile ? "gradle/verification-metadata.xml",
 }: let
+  filteredSrc = lib.sources.cleanSourceWith {
+    inherit src;
+    filter = path: type: null != builtins.match ".*/${verificationFile}";
+  };
+
   depSpecs = builtins.filter dependencyFilter (
     # Read all build and runtime dependencies from the verification-metadata XML
     builtins.fromJSON (builtins.readFile (
       runCommandNoCC "depSpecs" {buildInputs = [python3];}
-      "python ${./parse.py} ${src}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
+      "python ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
     ))
   );
   mkDep = depSpec: {
