@@ -22,7 +22,7 @@
       runCommandNoCC "depSpecs" {
         src = ./.;
       }
-      "${python3}/bin/python3 ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)} | tee $out"
+      "touch $out && ${python3}/bin/python3 ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)} | tee $out"
     ))
   );
   mkDep = depSpec: {
