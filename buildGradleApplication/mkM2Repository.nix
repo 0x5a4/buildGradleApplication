@@ -20,10 +20,10 @@
     # Read all build and runtime dependencies from the verification-metadata XML
     builtins.fromJSON (builtins.readFile (
       runCommandNoCC "depSpecs" {
-        src = filteredSrc;
+        src = ./.;
         buildInputs = [python3];
       }
-      "python ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
+      "python ./parse.py ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
     ))
   );
   mkDep = depSpec: {
