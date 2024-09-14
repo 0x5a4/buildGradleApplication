@@ -23,7 +23,7 @@
         src = ./.;
         buildInputs = [python3];
       }
-      "python ./parse.py ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
+      "python ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
     ))
   );
   mkDep = depSpec: {
