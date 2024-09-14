@@ -19,10 +19,22 @@
   depSpecs = builtins.filter dependencyFilter (
     # Read all build and runtime dependencies from the verification-metadata XML
     builtins.fromJSON (builtins.readFile (
-      runCommandNoCC "depSpecs" {
-        src = ./.;
-      }
-      "touch $out && ${python3}/bin/python3 ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)} | tee $out"
+      stdenv.mkDerivation (finalAttrs: {
+        pname = "depSpecs";
+        src = ./.
+        
+        buildPhase = ''
+          ${python3}/bin/python3 ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)} > depSpecs.json
+        ''
+
+        installPhase = ''
+          cp depSpecs.json $out 
+        ''
+
+        meta = {
+          description = "bla";
+        };
+      })
     ))
   );
   mkDep = depSpec: {
