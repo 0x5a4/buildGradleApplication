@@ -21,9 +21,8 @@
     builtins.fromJSON (builtins.readFile (
       runCommandNoCC "depSpecs" {
         src = ./.;
-        buildInputs = [python3];
       }
-      "python ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
+      "${python3}/bin/python3 ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
     ))
   );
   mkDep = depSpec: {
