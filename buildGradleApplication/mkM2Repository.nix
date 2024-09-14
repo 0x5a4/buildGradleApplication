@@ -19,7 +19,10 @@
   depSpecs = builtins.filter dependencyFilter (
     # Read all build and runtime dependencies from the verification-metadata XML
     builtins.fromJSON (builtins.readFile (
-      runCommandNoCC "depSpecs" {buildInputs = [python3];}
+      runCommandNoCC "depSpecs" {
+        src = filteredSrc;
+        buildInputs = [python3];
+      }
       "python ${./parse.py} ${filteredSrc}/${verificationFile} ${builtins.toString (builtins.map lib.escapeShellArg repositories)}> $out"
     ))
   );
